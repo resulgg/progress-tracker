@@ -41,7 +41,7 @@ Progress Tracker is a web application designed to help users set, track, and ach
 
    ````bash
    git clone https://github.com/resulgg/progress-tracker.git
-   cd progress-tracker   ```
+   cd progress-tracker
 
    ````
 
@@ -50,7 +50,7 @@ Progress Tracker is a web application designed to help users set, track, and ach
    Using pnpm:
 
    ````bash
-   pnpm install   ```
+   pnpm install
 
    ````
 
@@ -73,7 +73,7 @@ Progress Tracker is a web application designed to help users set, track, and ach
    LEMON_SQUEEZY_API_KEY=your_lemon_squeezy_api_key
    LEMONSQUEEZY_STORE_ID=your_lemon_squeezy_store_id
    NEXT_PUBLIC_LEMON_SQUEEZY_VARIANT_ID=your_lemon_squeezy_variant_id
-   LEMONSQUEEZY_WEBHOOK_SECRET=your_lemon_squeezy_webhook_secret   ```
+   LEMONSQUEEZY_WEBHOOK_SECRET=your_lemon_squeezy_webhook_secret  
 
    ````
 
@@ -85,14 +85,14 @@ Progress Tracker is a web application designed to help users set, track, and ach
 
    ````bash
    pnpm db:push
-   pnpm db:seed   ```
+   pnpm db:seed 
 
    ````
 
 5. **Run the Development Server**
 
    ````bash
-   pnpm dev   ```
+   pnpm dev 
 
    Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
    ````
