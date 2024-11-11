@@ -40,7 +40,7 @@ Progress Tracker is a web application designed to help users set, track, and ach
 1. **Clone the Repository**
 
    ````bash
-   git clone https://github.com/yourusername/progress-tracker.git
+   git clone https://github.com/resulgg/progress-tracker.git
    cd progress-tracker   ```
 
    ````
