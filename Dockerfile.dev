@@ -1,0 +1,50 @@
+# Use Node.js LTS (20.x) as the base image
+FROM node:20-alpine
+
+# Install dependencies
+RUN apk add --no-cache libc6-compat curl
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
+
+# Install package manager based on lock files
+RUN if [ -f "pnpm-lock.yaml" ]; then \
+        corepack enable && pnpm install --frozen-lockfile; \
+    elif [ -f "yarn.lock" ]; then \
+        corepack enable && yarn install --frozen-lockfile; \
+    else \
+        npm install --legacy-peer-deps; \
+    fi
+
+# Copy the rest of the application
+COPY . .
+
+# Disable telemetry
+ENV NEXT_TELEMETRY_DISABLED 1
+
+# Expose port 3000
+EXPOSE 3000
+
+# Create entrypoint script with dynamic package manager selection
+RUN echo '#!/bin/sh' > /entrypoint.sh && \
+    echo 'if [ -f "pnpm-lock.yaml" ]; then' >> /entrypoint.sh && \
+    echo '    pnpm db:generate' >> /entrypoint.sh && \
+    echo '    pnpm db:migrate' >> /entrypoint.sh && \
+    echo '    pnpm db:seed' >> /entrypoint.sh && \
+    echo '    pnpm dev' >> /entrypoint.sh && \
+    echo 'elif [ -f "yarn.lock" ]; then' >> /entrypoint.sh && \
+    echo '    yarn db:generate' >> /entrypoint.sh && \
+    echo '    yarn db:migrate' >> /entrypoint.sh && \
+    echo '    yarn db:seed' >> /entrypoint.sh && \
+    echo '    yarn dev' >> /entrypoint.sh && \
+    echo 'else' >> /entrypoint.sh && \
+    echo '    npm run db:generate' >> /entrypoint.sh && \
+    echo '    npm run db:migrate' >> /entrypoint.sh && \
+    echo '    npm run db:seed' >> /entrypoint.sh && \
+    echo '    npm run dev' >> /entrypoint.sh && \
+    echo 'fi' >> /entrypoint.sh && \
+    chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
